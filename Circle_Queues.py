@@ -17,7 +17,8 @@ class circle_queues:
 
     def push(self, new_data):
         if self.count == self.max:
-            print("Queue is full")
+            pass
+            # print("Queue is full")
         elif self.front == -1:
             self.front = 0
             self.back = 0
@@ -27,7 +28,7 @@ class circle_queues:
             self.back = self.back + 1
         self.a[self.back] = new_data
         self.count = self.count + 1
-        print("pushed, the car's id is: ", self.a[self.back])
+        #print("pushed, the car's id is: ", self.a[self.back])
 
     def pop(self):
         if self.front == -1:
@@ -42,7 +43,7 @@ class circle_queues:
             else:
                 self.front = self.front + 1
             self.count = self.count - 1
-            print("removed, car'id is: ", output_data(temp))
+            print("removed, car'id is: ", self.a[self.front])
 
     def peek(self):
         if self.front == -1:
