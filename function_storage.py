@@ -25,7 +25,7 @@ def command_add(number_of_add_car, car_queue, car_add_id, list_add_count, car_li
                 list_current,
                 car_left,
                 car_added)
-            print("added %d cars to lane %d" % (car_added, list_current))
+            print("added %d cars to lane %d" % (car_added, list_current+1))
             return id_current, list_current, car_line_list
         if car_line_list[list_current] == car_queue.max:  # decide if one line is full or not
             list_current = list_current + 1  # if full, move the new cars to next line
@@ -62,3 +62,20 @@ def command_add(number_of_add_car, car_queue, car_add_id, list_add_count, car_li
                 car_left,
                 car_added)
     return id_current, list_current, car_line_list
+
+
+def check_user_input(user_input, car_queue, car_add_id, list_add_count,
+                     car_line_list):
+    if user_input == "add":
+        car_add_amount = input("number of cars:")
+        car_add_amount = int(car_add_amount)
+        car_add_id, list_add_count, car_line_list = command_add(car_add_amount, car_queue, car_add_id, list_add_count,
+                                                                car_line_list)
+        return car_add_id, list_add_count, car_line_list
+    elif user_input == "load":
+        pass
+    elif user_input == "exit":
+        pass
+    else:
+        print("Invalid Command")
+        return car_add_id, list_add_count, car_line_list
