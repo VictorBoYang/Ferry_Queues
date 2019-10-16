@@ -33,7 +33,7 @@ class circle_queues:
         if self.front == -1:
             print("Queue is empty")
         else:
-            temp = self.a[self.front]
+            # temp = self.a[self.front]
             if self.front == self.back:
                 self.front = -1
                 self.back = -1

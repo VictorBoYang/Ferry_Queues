@@ -38,36 +38,76 @@ def command_add(number_of_add_car, car_line_list, car_id, list_index_count, car_
                 return car_line_list, car_id, list_index_count, car_added_count
             else:
                 car_left, car_line_list, car_added_count, list_index_count, car_id = move_car_into_queue(car_left,
-                                                                                                             car_line_list,
-                                                                                                             car_added_count,
-                                                                                                             list_index_count,
-                                                                                                             car_id)
-        else:
-            car_left, car_line_list, car_added_count, list_index_count, car_id = move_car_into_queue(car_left,
                                                                                                          car_line_list,
                                                                                                          car_added_count,
                                                                                                          list_index_count,
                                                                                                          car_id)
-    else:
-        car_left, car_line_list, car_added_count, list_index_count, car_id = move_car_into_queue(car_left,
+        else:
+            car_left, car_line_list, car_added_count, list_index_count, car_id = move_car_into_queue(car_left,
                                                                                                      car_line_list,
                                                                                                      car_added_count,
                                                                                                      list_index_count,
                                                                                                      car_id)
+    else:
+        car_left, car_line_list, car_added_count, list_index_count, car_id = move_car_into_queue(car_left,
+                                                                                                 car_line_list,
+                                                                                                 car_added_count,
+                                                                                                 list_index_count,
+                                                                                                 car_id)
     return car_line_list, car_id, list_index_count, car_added_count
 
 
-def check_user_input(user_input, car_id, list_index_count, car_line_list, car_added_count):
+def load_car(car_line_list, list_load_count, load_count):
+    car_line_list[list_load_count].pop()
+    load_count = load_count + 1
+    return car_line_list, list_load_count, load_count
+
+
+def command_load(car_line_list, list_load_count):
+    load_count = 0
+    for i in range(100):
+        if i != 99 and car_line_list[list_load_count].count == 0 and car_line_list[list_load_count + 1].count == 0:
+            print("Loaded %d cars from Lane %d" % (load_count, list_load_count))
+            print("All queues empty.")
+            return car_line_list, list_load_count
+        # if i != 99 and car_line_list[list_load_count].count == 0:
+        #     list_load_count = list_load_count + 1
+        #     if list_load_count == 10:
+        #         list_load_count = 0
+        #     if car_line_list[list_load_count].count == 0:
+        #         print("Loaded %d cars from Lane %d" % (load_count, list_load_count))
+        #         print("All queues empty.")
+        elif car_line_list[list_load_count].count == 0:
+            list_load_count = list_load_count + 1
+            if list_load_count == 10:
+                list_load_count = 0
+            if car_line_list[list_load_count + 1].count == 0:
+                print("All queues empty.")
+                return car_line_list, list_load_count
+            print("Loaded %d cars from Lane %d" % (load_count, list_load_count))
+            load_count = 0
+            car_line_list, list_load_count, load_count = load_car(car_line_list, list_load_count, load_count)
+        elif i == 99 and car_line_list[list_load_count].count != 0:
+            car_line_list, list_load_count, load_count = load_car(car_line_list, list_load_count, load_count)
+            print("Loaded %d cars from Lane %d" % (load_count, list_load_count+1))
+            return car_line_list, list_load_count
+        else:
+            car_line_list, list_load_count, load_count = load_car(car_line_list, list_load_count, load_count)
+    return car_line_list, list_load_count
+
+
+def check_user_input(user_input, car_id, list_index_count, car_line_list, car_added_count, list_load_count):
     if user_input == "add":
         car_add_amount = input("number of cars:")
         number_of_add_car = int(car_add_amount)
-        car_line_list, car_id, list_index_count,car_added_count = command_add(number_of_add_car, car_line_list, car_id,
-                                                              list_index_count, car_added_count)
-        return car_id, car_line_list, list_index_count, car_added_count
+        car_line_list, car_id, list_index_count, car_added_count = command_add(number_of_add_car, car_line_list, car_id,
+                                                                               list_index_count, car_added_count)
+        return car_id, car_line_list, list_index_count, car_added_count, list_load_count
     elif user_input == "load":
-        pass
+        car_line_list, list_load_count = command_load(car_line_list, list_load_count)
+        return car_id, car_line_list, list_index_count, car_added_count, list_load_count
     elif user_input == "exit":
-        pass
+        return car_id, car_line_list, list_index_count, car_added_count, list_load_count
     else:
         print("Invalid Command")
-        return car_id, car_line_list, list_index_count, car_added_count
+        return car_id, car_line_list, list_index_count, car_added_count, list_load_count
