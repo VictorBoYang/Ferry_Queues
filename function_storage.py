@@ -35,6 +35,11 @@ def command_add(number_of_add_car, car_line_list, car_id, list_index_count, car_
             car_added_count = 0
             if list_index_count == 10:
                 list_index_count = 0
+                car_left, car_line_list, car_added_count, list_index_count, car_id = move_car_into_queue(car_left,
+                                                                                                         car_line_list,
+                                                                                                         car_added_count,
+                                                                                                         list_index_count,
+                                                                                                         car_id)
             elif car_line_list[list_index_count].count == car_line_list[list_index_count].max:
                 print("Could not add %d cars. All queues full." % car_left)
                 list_index_count = list_index_count - 1
@@ -59,7 +64,6 @@ def command_add(number_of_add_car, car_line_list, car_id, list_index_count, car_
                                                                                                  car_id)
     return car_line_list, car_id, list_index_count, car_added_count
 
-
 def load_car(car_line_list, list_load_count, load_count):
     car_line_list[list_load_count].pop()
     load_count = load_count + 1
@@ -69,25 +73,14 @@ def load_car(car_line_list, list_load_count, load_count):
 def command_load(car_line_list, list_load_count):
     load_count = 0
     for i in range(100):
-        if i != 99 and car_line_list[list_load_count].count == 0 and car_line_list[list_load_count + 1].count == 0:
-            print("Loaded %d cars from Lane %d" % (load_count, list_load_count))
-            print("All queues empty.")
-            return car_line_list, list_load_count
-        # if i != 99 and car_line_list[list_load_count].count == 0:
-        #     list_load_count = list_load_count + 1
-        #     if list_load_count == 10:
-        #         list_load_count = 0
-        #     if car_line_list[list_load_count].count == 0:
-        #         print("Loaded %d cars from Lane %d" % (load_count, list_load_count))
-        #         print("All queues empty.")
-        elif car_line_list[list_load_count].count == 0:
+        if car_line_list[list_load_count].count == 0:
             list_load_count = list_load_count + 1
+            print("Loaded %d cars from Lane %d" % (load_count, list_load_count))
             if list_load_count == 10:
                 list_load_count = 0
-            if car_line_list[list_load_count + 1].count == 0:
+            if car_line_list[list_load_count].count == 0:
                 print("All queues empty.")
                 return car_line_list, list_load_count
-            print("Loaded %d cars from Lane %d" % (load_count, list_load_count))
             load_count = 0
             car_line_list, list_load_count, load_count = load_car(car_line_list, list_load_count, load_count)
         elif i == 99 and car_line_list[list_load_count].count != 0:
