@@ -27,6 +27,8 @@ def command_add(number_of_add_car, car_line_list, car_id, list_index_count, car_
             car_added_count = 0
             return car_line_list, car_id, list_index_count, car_added_count
         if car_line_list[list_index_count].count == car_line_list[list_index_count].max:
+            if list_index_count == 10:
+                list_index_count = 0
             if car_added_count != 0:
                 print("Added %d cars to Lane %d" % (car_added_count, list_index_count + 1))
             list_index_count = list_index_count + 1
@@ -35,6 +37,7 @@ def command_add(number_of_add_car, car_line_list, car_id, list_index_count, car_
                 list_index_count = 0
             elif car_line_list[list_index_count].count == car_line_list[list_index_count].max:
                 print("Could not add %d cars. All queues full." % car_left)
+                list_index_count = list_index_count - 1
                 return car_line_list, car_id, list_index_count, car_added_count
             else:
                 car_left, car_line_list, car_added_count, list_index_count, car_id = move_car_into_queue(car_left,
